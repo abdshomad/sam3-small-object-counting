@@ -1,0 +1,32 @@
+# Cursor Rules for UV Venv Python Script Execution
+
+## Python Script Execution
+- ALWAYS use `uv venv` virtual environment for running Python scripts
+- NEVER run Python scripts directly with system Python or other virtual environments
+- For all Python script executions, use one of these patterns:
+  - `uv run python <script.py>` (preferred - automatically uses venv)
+  - `uv run <script.py>` (if script is executable and has shebang)
+  - Activate the venv first: `source .venv/bin/activate` then run scripts (if venv exists)
+- If `.venv` doesn't exist, create it first: `uv venv` or `uv venv .venv`
+
+## Virtual Environment Management
+- Always ensure the virtual environment is created with `uv venv` before running scripts
+- Install dependencies with `uv pip install` or `uv sync` (if pyproject.toml is present)
+- When suggesting commands to run Python scripts, always prefix with `uv run` or ensure venv is activated
+
+## Example Patterns
+- ✅ `uv run python scripts/eval/gold/eval_sam3.py`
+- ✅ `uv run pytest`
+- ✅ `uv run python -m sam3.agent.inference`
+- ❌ `python scripts/eval/gold/eval_sam3.py` (without uv run)
+- ❌ `python3 script.py` (without uv run)
+
+## Dependencies and Installation
+- Use `uv pip install <package>` to install packages in the uv venv
+- Use `uv sync` to install all dependencies from pyproject.toml
+- When adding new dependencies, update pyproject.toml and run `uv sync`
+
+## Notebooks
+- For Jupyter notebooks, ensure the kernel is using the uv venv
+- Run `uv run jupyter notebook` or `uv run jupyter lab` to ensure notebooks use the correct environment
+
